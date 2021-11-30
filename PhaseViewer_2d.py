@@ -70,6 +70,7 @@ for ii in range(len(T)):
 #  cb = fig.colorbar(cp)
 #  cb.set_label(r"$T$ (GeV)")
 
+  ax.set_title("T="+str(Ti))
 #  plt.show()
 
   plt.savefig('temp.png', bbox_inches='tight')
