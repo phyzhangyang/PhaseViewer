@@ -23,6 +23,7 @@ from matplotlib import cm, rc
 sys.path.append(os.path.join(os.path.split(os.path.realpath(__file__))[0], "src"))
 ## Internal modules.
 import initialize
+from potential_2d import Veff
 
 try:
     latex = os.environ["MATPLOTLIB_LATEX"]
@@ -33,15 +34,10 @@ if latex:
     rc('font', **{'family': 'serif'})
     rc('font', **{'family': 'serif', 'size': 14})
 
-
-def V(x, T):
-    return -100*x**2 - 10.*x**3 + 0.1*x**4 + 0.1*x**2 * T**2
-
-
 scale = 1e-6
 TC = 59.2297
 x = np.linspace(-20, 100, 600)
-T = np.linspace(0, 100, 50)
+T = np.linspace(0, 100, 4)
 #T = np.array([0, 10, 20, 30, 40, 50, 55, TC, 60, 65, 70, 80])
 
 #xx, TT = np.meshgrid(x, T)
@@ -54,7 +50,7 @@ for ii in range(len(T)):
 
   fig, ax = plt.subplots()
   Ti = T[ii]
-  Vi = V(x, Ti)
+  Vi = Veff(x, Ti)
   cp = ax.scatter(x, scale * Vi, c='r', s=5, edgecolor='None', alpha=0.8)
 
 #  ax.text(43, -0.1, r'$T_C=59.2$ GeV')
