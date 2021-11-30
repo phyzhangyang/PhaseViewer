@@ -24,18 +24,6 @@ sys.path.append(os.path.join(os.path.split(os.path.realpath(__file__))[0], "src"
 ## Internal modules.
 import initialize
 
-def create_gif(source, name, duration):
-	"""
-     生成gif的函数，原始图片仅支持png
-     source: 为png图片列表（排好序）
-     name ：生成的文件名称
-     duration: 每张图片之间的时间间隔
-	"""
-	frames = []     # 读入缓冲区
-	for img in source:
-		frames.append(imageio.imread(img))
-	imageio.mimsave(name, frames, 'GIF', duration=duration)
-	print("处理完成")
 try:
     latex = os.environ["MATPLOTLIB_LATEX"]
 except KeyError:
@@ -53,12 +41,15 @@ def V(x, T):
 scale = 1e-6
 TC = 59.2297
 x = np.linspace(-20, 100, 600)
-T = np.array([0, 20, 30, 40, 50, TC, 65, 70, 80])
+T = np.linspace(0, 100, 50)
+#T = np.array([0, 10, 20, 30, 40, 50, 55, TC, 60, 65, 70, 80])
 
 #xx, TT = np.meshgrid(x, T)
 #VV = V(xx, TT)
 #cp = ax.scatter(xx, scale * VV, c=TT, s=5, edgecolor='None', cmap=cm.get_cmap('rainbow', 15), alpha=0.8)
 
+
+frames = []
 for ii in range(len(T)):
 
   fig, ax = plt.subplots()
@@ -81,10 +72,12 @@ for ii in range(len(T)):
 
 #  plt.show()
 
-  plt.savefig(str(ii)+'.png', bbox_inches='tight')
-def main():
-     image_list=['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png']
-     gif_name = 'new.gif'
-     duration =0.1
-     create_gif(image_list,gif_name,duration)
-main()
+  plt.savefig('temp.png', bbox_inches='tight')
+  
+  frames.append(imageio.imread('temp.png'))
+
+gif_name = 'new.gif'
+duration =0.1
+imageio.mimsave(gif_name, frames, 'GIF', duration=duration)
+
+
