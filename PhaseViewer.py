@@ -15,6 +15,7 @@
 ##############################################################
 
 ## External modules.
+import imageio
 import os,sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,6 +24,18 @@ sys.path.append(os.path.join(os.path.split(os.path.realpath(__file__))[0], "src"
 ## Internal modules.
 import initialize
 
+def create_gif(source, name, duration):
+	"""
+     生成gif的函数，原始图片仅支持png
+     source: 为png图片列表（排好序）
+     name ：生成的文件名称
+     duration: 每张图片之间的时间间隔
+	"""
+	frames = []     # 读入缓冲区
+	for img in source:
+		frames.append(imageio.imread(img))
+	imageio.mimsave(name, frames, 'GIF', duration=duration)
+	print("处理完成")
 try:
     latex = os.environ["MATPLOTLIB_LATEX"]
 except KeyError:
@@ -69,10 +82,9 @@ for ii in range(len(T)):
 #  plt.show()
 
   plt.savefig(str(ii)+'.png', bbox_inches='tight')
-
-
-
-
-
-
-
+def main():
+     image_list=['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png']
+     gif_name = 'new.gif'
+     duration =0.1
+     create_gif(image_list,gif_name,duration)
+main()
